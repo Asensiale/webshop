@@ -1,20 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Список товаров{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
+
 {% block content %}
-<h1 class="mb-4">Список товаров</h1>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for product in products %}
-    <div class="col">
-        <div class="card h-100">
-            <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text"><strong>Цена:</strong> {{ product.price }} ₽</p>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="row g-0">
+            <div class="col-md-5">
+                <img src="{{ product.image }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <h3 class="card-title">{{ product.name }}</h3>
+                    <p class="card-text"><strong>Описание:</strong> {{ product.description }}</p>
+                    <p class="card-text"><strong>Цена:</strong> {{ product.price }} ₽</p>
+                    <a href="{% url 'products-list' %}" class="btn btn-secondary mt-3">Назад к списку</a>
+                </div>
             </div>
         </div>
     </div>
-    {% empty %}
-    <p>Товары отсутствуют.</p>
-    {% endfor %}
 </div>
 {% endblock %}
+
+

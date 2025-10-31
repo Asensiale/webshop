@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Список товаров{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Список товаров</h1>
+        <div>
+            <a href="{% url 'product-add' %}" class="btn btn-success me-2"> Добавить товар</a>
+            <a href="{% url 'category-add' %}" class="btn btn-outline-primary"> Добавить категорию</a>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">
+                        <strong>Цена:</strong> {{ product.price }} ₽<br>
+                        <small class="text-muted">Категория: {{ product.category.name }}</small>
+                    </p>
+                    <a href="{% url 'product-detail' product.id %}" class="btn btn-primary mt-2">Посмотреть больше</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>Товары отсутствуют.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
