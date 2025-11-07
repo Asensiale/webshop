@@ -1,62 +1,63 @@
 [
-    {
-        "model": "webapp.category",
-        "pk": 1,
-        "fields": {
-            "name": "Кольца",
-            "description": "Классические и дизайнерские кольца из разных материалов"
-        }
-    },
-    {
-        "model": "webapp.category",
-        "pk": 2,
-        "fields": {
-            "name": "Браслеты",
-            "description": "Браслеты из золота, серебра и кожи"
-        }
-    },
-    {
-        "model": "webapp.category",
-        "pk": 3,
-        "fields": {
-            "name": "Часы",
-            "description": "Наручные часы для мужчин и женщин"
-        }
-    },
-    {
-        "model": "webapp.product",
-        "pk": 1,
-        "fields": {
-            "name": "Золотое кольцо с гравировкой",
-            "description": "Элегантное золотое кольцо с индивидуальной гравировкой",
-            "category": 1,
-            "price": "15000.00",
-            "image": "https://inlnk.ru/AKoxvg",
-            "created_at": "2025-10-31T14:00:00Z"
-        }
-    },
-    {
-        "model": "webapp.product",
-        "pk": 2,
-        "fields": {
-            "name": "Серебряный браслет",
-            "description": "Стильный браслет из серебра с декоративными вставками",
-            "category": 2,
-            "price": "8000.00",
-            "image": "https://inlnk.ru/vo9kKe",
-            "created_at": "2025-10-31T14:00:00Z"
-        }
-    },
-    {
-        "model": "webapp.product",
-        "pk": 3,
-        "fields": {
-            "name": "Мужские наручные часы",
-            "description": "Элегантные часы с кожаным ремешком",
-            "category": 3,
-            "price": "25000.00",
-            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2R_oepL1O6a3mh8hYUpN1Zp0L7S8Qx2qSJg&s",
-            "created_at": "2025-10-31T14:00:00Z"
-        }
+  {
+    "model": "webapp.product",
+    "pk": 1,
+    "fields": {
+      "name": "iPhone 14",
+      "category": "Smartphones",
+      "price": "899.99",
+      "stock": 5
     }
+  },
+  {
+    "model": "webapp.product",
+    "pk": 2,
+    "fields": {
+      "name": "Samsung S23",
+      "category": "Smartphones",
+      "price": "799.50",
+      "stock": 3
+    }
+  },
+  {
+    "model": "webapp.product",
+    "pk": 3,
+    "fields": {
+      "name": "Xiaomi 13",
+      "category": "Smartphones",
+      "price": "699.00",
+      "stock": 0
+    }
+  },
+  {
+    "model": "webapp.product",
+    "pk": 4,
+    "fields": {
+      "name": "Nokia X20",
+      "category": "Smartphones",
+      "price": "399.99",
+      "stock": 7
+    }
+  },
+  {
+    "model": "webapp.product",
+    "pk": 5,
+    "fields": {
+      "name": "iPhone 13",
+      "category": "Smartphones",
+      "price": "599.00",
+      "stock": 2
+    }
+  },
+  {
+    "model": "webapp.product",
+    "pk": 6,
+    "fields": {
+      "name": "Samsung A52",
+      "category": "Smartphones",
+      "price": "349.90",
+      "stock": 4
+    }
+  }
 ]
+
