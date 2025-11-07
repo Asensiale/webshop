@@ -11,23 +11,33 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name="Наименование")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
     category = models.ForeignKey(
-        Category,
+        'Category',
         on_delete=models.CASCADE,
         related_name="products",
         verbose_name="Категория"
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Стоимость")
+    price = models.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        verbose_name="Стоимость"
+    )
     image = models.URLField(verbose_name="Ссылка на изображение")
+    stock = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Остаток",
+        help_text="Количество единиц товара на складе (не может быть меньше 0)"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата добавления")
 
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+        ordering = ["category", "name"]
 
     def __str__(self):
         return self.name
