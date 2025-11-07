@@ -4,7 +4,7 @@ from webapp.forms import ProductForm, CategoryForm
 
 
 def products_view(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(stock__gte=1).order_by('category', 'name')
     return render(request, 'products.html', {'products': products})
 
 
@@ -33,3 +33,21 @@ def product_add_view(request):
     else:
         form = ProductForm()
     return render(request, 'product_add.html', {'form': form})
+def product_edit_view(request, id):
+    product = get_object_or_404(Product, id=id)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product-detail', id=product.id)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'product_form.html', {'form': form, 'title': 'Редактирование товара'})
+
+
+def product_delete_view(request, id):
+    product = get_object_or_404(Product, id=id)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('products-list')
+    return render(request, 'product_confirm_delete.html', {'product': product})
