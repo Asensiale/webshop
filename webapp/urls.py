@@ -1,14 +1,15 @@
 from django.urls import path
-from webapp import views
+from .views import (
+    ProductListView, ProductDetailView,
+    ProductCreateView, ProductUpdateView, ProductDeleteView
+)
 
+app_name = "products"
 urlpatterns = [
-    path('', views.products_view, name='products-home'),
-    path('products/', views.products_view, name='products-list'),
-    path('products/add/', views.product_add_view, name='product-add'),
-    path('categories/add/', views.category_add_view, name='category-add'),
-    path('products/<int:id>/', views.product_detail_view, name='product-detail'),
-    path('products/<int:id>/edit/', views.product_edit_view, name='product-edit'),       # редактирование
-    path('products/<int:id>/delete/', views.product_delete_view, name='product-delete'), # удаление
+    path("", ProductListView.as_view(), name="list"),
+    path("<int:pk>/", ProductDetailView.as_view(), name="detail"),
+    path("add/", ProductCreateView.as_view(), name="create"),
+    path("<int:pk>/edit/", ProductUpdateView.as_view(), name="update"),
+    path("<int:pk>/delete/", ProductDeleteView.as_view(), name="delete"),
 ]
-
 
