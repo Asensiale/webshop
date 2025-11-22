@@ -1,53 +1,53 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from webapp.models import Product, Category
-from webapp.forms import ProductForm, CategoryForm
+from django.views.generic import (
+    ListView, DetailView, CreateView,
+    UpdateView, DeleteView
+)
+from django.urls import reverse_lazy
+from django.db.models import Q
+from webapp.models import Product
+from webapp.forms import ProductForm
 
 
-def products_view(request):
-    products = Product.objects.filter(stock__gte=1).order_by('category', 'name')
-    return render(request, 'products.html', {'products': products})
+class ProductListView(ListView):
+    model = Product
+    template_name = "products.html"
+    context_object_name = "products"
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = Product.objects.filter(amount__gte=1)
+        search = self.request.GET.get("q", "")
+
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search) |
+                Q(description__icontains=search)
+            )
+
+        return queryset.order_by("category__name", "name")
 
 
-def product_detail_view(request, id):
-    product = get_object_or_404(Product, id=id)
-    return render(request, 'product_detail.html', {'product': product})
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "product_detail.html"
+    context_object_name = "product"
 
 
-def category_add_view(request):
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('products-list')
-    else:
-        form = CategoryForm()
-    return render(request, 'category_add.html', {'form': form})
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "product_form.html"
+    success_url = reverse_lazy("products:list")
 
 
-def product_add_view(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('products-list')
-    else:
-        form = ProductForm()
-    return render(request, 'product_add.html', {'form': form})
-def product_edit_view(request, id):
-    product = get_object_or_404(Product, id=id)
-    if request.method == 'POST':
-        form = ProductForm(request.POST, instance=product)
-        if form.is_valid():
-            form.save()
-            return redirect('product-detail', id=product.id)
-    else:
-        form = ProductForm(instance=product)
-    return render(request, 'product_form.html', {'form': form, 'title': 'Редактирование товара'})
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "product_form.html"
+    success_url = reverse_lazy("products:list")
 
 
-def product_delete_view(request, id):
-    product = get_object_or_404(Product, id=id)
-    if request.method == 'POST':
-        product.delete()
-        return redirect('products-list')
-    return render(request, 'product_confirm_delete.html', {'product': product})
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "product_confirm_delete.html"
+    success_url = reverse_lazy("products:list")
