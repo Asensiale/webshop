@@ -6,8 +6,8 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">Список товаров</h1>
         <div>
-            <a href="{% url 'product-add' %}" class="btn btn-success me-2">Добавить товар</a>
-            <a href="{% url 'category-add' %}" class="btn btn-outline-primary">Добавить категорию</a>
+            <a href="{% url 'products:create' %}" class="btn btn-success me-2">Добавить товар</a>
+            <a href="{% url 'products:cart' %}" class="btn btn-outline-primary">Корзина</a>
         </div>
     </div>
 
@@ -23,10 +23,18 @@
                         <small class="text-muted">Категория: {{ product.category.name }}</small><br>
                         <small class="text-muted">Остаток: {{ product.stock }}</small>
                     </p>
-                    <div class="mt-auto d-flex justify-content-between">
-                        <a href="{% url 'product-detail' product.id %}" class="btn btn-primary">Посмотреть</a>
-                        <a href="{% url 'add' product.pk %}" class="btn btn-warning">Добавить в корзину</a>
+
+                    <div class="mt-auto">
+                        <a href="{% url 'products:detail' product.id %}" class="btn btn-primary w-100 mb-2">Посмотреть</a>
+
+                        <form action="{% url 'products:add' product.pk %}" method="post" class="d-flex gap-2">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" min="1" value="1"
+                                   class="form-control" style="max-width: 80px;">
+                            <button type="submit" class="btn btn-warning w-100">Добавить</button>
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -36,3 +44,4 @@
     </div>
 </div>
 {% endblock %}
+
