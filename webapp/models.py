@@ -53,3 +53,39 @@ class CartProduct(models.Model):
     def __str__(self):
         return f"{self.product.name} ({self.quantity})"
 
+class Order(models.Model):
+    username = models.CharField(max_length=100, verbose_name="Имя пользователя")
+    phone = models.CharField(max_length=30, verbose_name="Телефон")
+    address = models.CharField(max_length=255, verbose_name="Адрес")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Заказ №{self.pk} от {self.username}"
+
+
+class OrderProduct(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="order_items"
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="order_products"
+    )
+    quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name = "Товар заказа"
+        verbose_name_plural = "Товары заказа"
+
+    def __str__(self):
+        return f"{self.product.name} x {self.quantity}"
+
+
